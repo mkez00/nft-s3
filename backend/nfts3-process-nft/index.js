@@ -52,38 +52,56 @@ exports.handler = async (event) => {
             } else {
                 validTransaction = true;
             }
-
-            // if a valid transaction 
-            if (validTransaction){
-                const s3ParseUrl = require('s3-url-parser');
-                var metadataBucket = process.env.metadata_bucket;
-                const { bucket, region, key } = s3ParseUrl(tokenUri);
-                console.log(metadataBucket)
-                console.log(key)
-
-                // 1. generate filename for image that was uploaded.  Upload image to S3
-
-                /**
-                 * 2. Build nft metadata
-                 * 
-                 * image: URL to s3 bucket from 1
-                 * name: provided from client
-                 * description: provided from client
-                 * 
-                 */
-
-                //3. connect to S3 and upload .json file to this bucket
-
-            }
         } catch (error) {
-            console.log(error.response.body);
             validTransaction = true;
+        }
+
+         // if a valid transaction 
+        if (validTransaction){
+            const AWS = require('aws-sdk');
+            const s3 = new AWS.S3();
+
+            // 1. generate filename for image that was uploaded.  Upload image to S3
+                
+
+            /**
+             * 2. Build nft metadata
+             * 
+             * image: URL to s3 bucket from 1
+             * name: provided from client
+             * description: provided from client
+             * 
+             */
+
+
+            //3. connect to S3 and upload .json file to this bucket
+            const metadataContent = {
+                name: event["name"],
+                description: event["description"],
+                image: "URL FROM STEP 1"
+            };
+
+            const s3ParseUrl = require('s3-url-parser');
+            const { bucket, key } = s3ParseUrl(tokenUri);
+
+            const params = {
+                Bucket: bucket,
+                Key: key,
+                ContentType: "application/json",
+                Body: JSON.stringify(metadataContent, null, '\t')
+            };
+
+            try {
+                const stored = await s3.upload(params).promise()
+                console.log(stored)
+            } catch (err) {
+                console.log(err)
+            }
+           
+
         }
     }
     
-    // save file
-
-
     const response = {
         broker: broker,
         valuePaid: valuePaid,
@@ -108,12 +126,12 @@ const abi = [
 			},
 			{
 				"internalType": "string",
-				"name": "_tokenURI",
+				"name": "tokenURI_",
 				"type": "string"
 			},
 			{
 				"internalType": "address",
-				"name": "_broker",
+				"name": "broker_",
 				"type": "address"
 			}
 		],
