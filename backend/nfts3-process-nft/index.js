@@ -35,7 +35,7 @@ exports.handler = async (event) => {
     const valuePaid = await contract.methods.Value().call();
 
     // determine if contract provided and value provided are valid
-    var validTransaction = false;
+    let validTransaction = false;
     if (broker!=account || valuePaid < valueRequired){
         return "TRANSACTION IS NOT VALID";
     }
@@ -64,7 +64,7 @@ exports.handler = async (event) => {
             // 1. generate filename for image that was uploaded.  Upload image to S3
             const uuid = require("uuid")
             const type = event["image"].split(';')[0].split('/')[1]; //get image type
-            var filename = uuid.v1() + "." + type //build filename
+            const filename = uuid.v1() + "." + type //build filename
             const base64Data = new Buffer.from(event["image"].replace(/^data:image\/\w+;base64,/, ""), 'base64');
 
             const params2 = {
@@ -75,7 +75,7 @@ exports.handler = async (event) => {
                 ContentType: 'image/${type}'
             };
 
-            var imageLocation = ""
+            let imageLocation = ""
             try {
                 const stored = await s3.upload(params2).promise()
                 imageLocation = stored["Location"]
