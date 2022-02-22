@@ -36,8 +36,8 @@ exports.handler = async (event) => {
 
     // determine if contract provided and value provided are valid
     var validTransaction = false;
-    if (broker==account && valuePaid >= valueRequired){
-        validTransaction = true;
+    if (broker!=account || valuePaid < valueRequired){
+        return "TRANSACTION IS NOT VALID";
     }
 
     // check if S3 object exists.  If not, only allow one transaction per contract
