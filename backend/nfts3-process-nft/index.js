@@ -62,7 +62,27 @@ exports.handler = async (event) => {
             const s3 = new AWS.S3();
 
             // 1. generate filename for image that was uploaded.  Upload image to S3
-                
+            var uuid = require("uuid")
+            const type = event["image"].split(';')[0].split('/')[1]; //get image type
+            var filename = uuid.v1() + "." + type //build filename
+            const base64Data = new Buffer.from(event["image"].replace(/^data:image\/\w+;base64,/, ""), 'base64');
+
+            const params2 = {
+                Bucket: process.env.bucket,
+                Key: filename,
+                ContentEncoding: 'base64',
+                Body: base64Data,
+                ContentType: 'image/${type}'
+            };
+
+            var imageLocation = ""
+            try {
+                const stored = await s3.upload(params2).promise()
+                imageLocation = stored["Location"]
+                console.log(stored["Location"])
+            } catch (err) {
+                console.log(err)
+            }
 
             /**
              * 2. Build nft metadata
@@ -72,18 +92,17 @@ exports.handler = async (event) => {
              * description: provided from client
              * 
              */
-
-
-            //3. connect to S3 and upload .json file to this bucket
             const metadataContent = {
                 name: event["name"],
                 description: event["description"],
-                image: "URL FROM STEP 1"
+                image: imageLocation
             };
+            console.log(metadataContent)
 
             const s3ParseUrl = require('s3-url-parser');
             const { bucket, key } = s3ParseUrl(tokenUri);
 
+            //3. connect to S3 and upload .json file to this bucket
             const params = {
                 Bucket: bucket,
                 Key: key,
@@ -93,7 +112,7 @@ exports.handler = async (event) => {
 
             try {
                 const stored = await s3.upload(params).promise()
-                console.log(stored)
+                console.log(stored["Location"])
             } catch (err) {
                 console.log(err)
             }
