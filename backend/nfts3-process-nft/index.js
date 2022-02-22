@@ -17,22 +17,22 @@
 
 exports.handler = async (event) => {
 
-    var contractId = event["contractId"];
-    var account = process.env.account;
-    var valueRequired = process.env.value;
-    var provider = process.env.blockchain_provider;
+    const contractId = event["contractId"];
+    const account = process.env.account;
+    const valueRequired = process.env.value;
+    const provider = process.env.blockchain_provider;
     
     // connect to provider specified in Env
-    var Web3 = require('web3');
-    var web3Provider = new Web3.providers.HttpProvider(provider);
-    var web3 = new Web3(web3Provider);
+    const Web3Lib = require('web3');
+    const web3Provider = new Web3Lib.providers.HttpProvider(provider);
+    const web3 = new Web3Lib(web3Provider);
     
     // set Contract provided by client
-    let contract = new web3.eth.Contract(abi, contractId);
+    const contract = new web3.eth.Contract(abi, contractId);
 
     // fetch broker and value paid
-    var broker = await contract.methods.Broker().call();
-    var valuePaid = await contract.methods.Value().call();
+    const broker = await contract.methods.Broker().call();
+    const valuePaid = await contract.methods.Value().call();
 
     // determine if contract provided and value provided are valid
     var validTransaction = false;
@@ -41,7 +41,7 @@ exports.handler = async (event) => {
     }
 
     // check if S3 object exists.  If not, only allow one transaction per contract
-    var tokenUri = await contract.methods.tokenURI("1").call();
+    const tokenUri = await contract.methods.tokenURI("1").call();
     if (tokenUri!=null){
         const axios = require('axios');
         try {
@@ -62,7 +62,7 @@ exports.handler = async (event) => {
             const s3 = new AWS.S3();
 
             // 1. generate filename for image that was uploaded.  Upload image to S3
-            var uuid = require("uuid")
+            const uuid = require("uuid")
             const type = event["image"].split(';')[0].split('/')[1]; //get image type
             var filename = uuid.v1() + "." + type //build filename
             const base64Data = new Buffer.from(event["image"].replace(/^data:image\/\w+;base64,/, ""), 'base64');
