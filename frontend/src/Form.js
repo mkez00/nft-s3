@@ -1,6 +1,7 @@
 import './Form.css'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import {v1} from 'uuid'
+import Web3 from 'web3'
 
 function Form(props){
 
@@ -9,6 +10,24 @@ function Form(props){
   const [selectedFile, setSelectedFile] = useState("");
   const [nftName, setNftName] = useState("");
   const [nftSymbol, setNftSymbol] = useState("");
+  const [contract, setContract] = useState();
+  const [account, setAccount] = useState();
+  const [processingStatus, setProcessingStatus] = useState();
+
+  useEffect(() => {
+    async function load() {
+      const web3 = new Web3(window.ethereum);
+      const accounts = await web3.eth.requestAccounts();
+      setAccount(accounts[0]);
+
+      let abi = require('./abi.json')
+      let contract = new web3.eth.Contract(abi)
+      setContract(contract)
+      setProcessingStatus("")
+    }
+    
+    load();
+   }, []);
 
   const changeHandler = (event) => {
 		setSelectedFile(event.target.files[0]);
@@ -17,16 +36,21 @@ function Form(props){
 
   let handleSubmit = async (e) => {
     e.preventDefault();
-    
+    setProcessingStatus("Processing smart contract")
+
     let byteCode = require('./byteCode.json')
     let tokenUri = props.baseUri + v1() + ".json"
-    props.contract.deploy({data:byteCode.object,arguments:[nftName, nftSymbol, tokenUri, props.broker]}).send(
+    
+    console.log("Processing smart contract")
+    const contractResult = await contract.deploy({data:byteCode.object,arguments:[nftName, nftSymbol, tokenUri, props.broker]}).send(
       {
-        from: props.account,
+        from: account,
         value: props.value,
       }
     )
 
+    console.log("Processing NFT metadata")
+    setProcessingStatus("Processing NFT Metadata")
     let imageBase64 = ''  
     getBase64(selectedFile, async (result) => {
       imageBase64 = result;
@@ -36,15 +60,17 @@ function Form(props){
         body: JSON.stringify({
           name: name,
           description: description,
-          contractId: "0x506e3f9F564111251C3528dBED31c60Aa8C408B9",
+          contractId: contractResult.options.address,
           image: imageBase64
         }),
       });
       let resJson = await res.json();
       if (res.status === 200) {
         console.log("User created successfully");
+        setProcessingStatus("NFT Created Successfully: " + contractResult.options.address)
       } else {
         console.log("Some error occured");
+        setProcessingStatus("Error processing request")
       }
 
     });
@@ -53,6 +79,7 @@ function Form(props){
 
   return (
     <div className="container">
+      <p>{processingStatus}</p>
       <form onSubmit={handleSubmit}>
         <ul className="flex-outer">
           <li>
@@ -62,14 +89,6 @@ function Form(props){
               <li>
                 <label htmlFor="nft-symbol">NFT Symbol</label>
                 <input type="text" id="nft-symbol" placeholder="Enter the NFT Symbol here" onChange={(e) => setNftSymbol(e.target.value)}  />
-              </li>
-              <li>
-                <label htmlFor="token-uri">Token URI</label>
-                <input type="text" id="token-uri" placeholder="Enter the Token URI here" />
-              </li>
-              <li>
-                <label htmlFor="broker-address">Broker Address</label>
-                <input type="text" id="broker-address" placeholder="Enter the Broker Address here" />
               </li>
               <li>
                 <label htmlFor="name">Name</label>
