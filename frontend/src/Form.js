@@ -1,5 +1,6 @@
 import './Form.css'
-import { useState } from 'react';
+import { useState } from 'react'
+import {v1} from 'uuid'
 
 function Form(props){
 
@@ -18,7 +19,8 @@ function Form(props){
     e.preventDefault();
     
     let byteCode = require('./byteCode.json')
-    props.contract.deploy({data:byteCode.object,arguments:[nftName, nftSymbol, "asfasdf", props.broker]}).send(
+    let tokenUri = props.baseUri + v1() + ".json"
+    props.contract.deploy({data:byteCode.object,arguments:[nftName, nftSymbol, tokenUri, props.broker]}).send(
       {
         from: props.account,
         value: props.value,
