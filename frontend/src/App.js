@@ -6,6 +6,7 @@ import Web3 from 'web3'
 import { useEffect, useState } from 'react';
 
 function App() {
+  const [contract, setContract] = useState();
   const [account, setAccount] = useState();
   const [blockchainApi, setBlockChainApi] = useState();
   const [broker, setBroker] = useState();
@@ -16,6 +17,10 @@ function App() {
       const web3 = new Web3(window.ethereum);
       const accounts = await web3.eth.requestAccounts();
       setAccount(accounts[0]);
+
+      let abi = require('./abi.json')
+      let contract = new web3.eth.Contract(abi)
+      setContract(contract)
     }
     
     load();
@@ -35,7 +40,7 @@ function App() {
     <div className="Wrapper">
       <Header></Header>
       <Disclaimer account={account} blockchainApi={blockchainApi}></Disclaimer>
-      <Body broker={broker} value={value}></Body>
+      <Body contract={contract} account={account} broker={broker} value={value}></Body>
     </div>
   );
 }
