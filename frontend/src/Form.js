@@ -6,12 +6,9 @@ function Form(props){
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [selectedFile, setSelectedFile] = useState("");
-  const [isSelected, setIsSelected] = useState(false);
 
   const changeHandler = (event) => {
 		setSelectedFile(event.target.files[0]);
-    setIsSelected(true)
-    console.log(event.target.files[0].length)
 	};
   
 
@@ -40,24 +37,6 @@ function Form(props){
 
     });
     
-    // submitProcess(imageBase64, async (result) => {
-      // console.log("Calling process")
-      // let res = await fetch("https://api.thequicknft.com/process", {
-      //   method: "POST",
-      //   body: JSON.stringify({
-      //     name: name,
-      //     description: description,
-      //     contractId: "0x506e3f9F564111251C3528dBED31c60Aa8C408B9",
-      //     image: imageBase64
-      //   }),
-      // });
-      // let resJson = await res.json();
-      // if (res.status === 200) {
-      //   console.log("User created successfully");
-      // } else {
-      //   console.log("Some error occured");
-      // }
-    // })
   }
 
   return (
