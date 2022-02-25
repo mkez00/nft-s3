@@ -38,9 +38,9 @@
   .flex-outer li label,
   .flex-outer li p {
     padding: 8px;
-    font-weight: 300;
+    /* font-weight: 300;
     letter-spacing: .09em;
-    text-transform: uppercase;
+    text-transform: uppercase; */
   }
   
   .flex-outer > li > label,
@@ -61,18 +61,20 @@
   .flex-outer li input:not([type='checkbox']),
   .flex-outer li textarea {
     padding: 15px;
-    border: none;
+    /* border: none; */
+    border-radius: 11px;
+    border-color: #8934eb;
   }
   
   .flex-outer li button {
     margin-left: auto;
-    padding: 8px 16px;
+    padding: 11px 25px;
     border: none;
-    background: #333;
+    background: #8934eb;
     color: #f2f2f2;
-    text-transform: uppercase;
-    letter-spacing: .09em;
-    border-radius: 2px;
+    /* text-transform: uppercase;
+    letter-spacing: .09em; */
+    border-radius: 11px;
   }
   
   .flex-inner li {

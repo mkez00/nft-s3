@@ -5,7 +5,7 @@ function Header(){
     return (
         <header className="App-header">
             <div>
-                <h1>The Quick NFT</h1>
+                <label><img width="25px" src='./rocket-launch-lines.png'></img>THE QUICK NFT</label>
             </div>
         </header>
         

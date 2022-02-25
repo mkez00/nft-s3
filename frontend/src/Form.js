@@ -103,7 +103,7 @@ function Form(props){
                 <input type="file" id="image" onChange={changeHandler} />
               </li>
               <li>
-                <button type="submit">Submit</button>
+                <button type="submit">Create</button>
               </li>
             </ul>
           </form>

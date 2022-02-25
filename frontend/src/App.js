@@ -24,8 +24,9 @@ function App() {
   return (
     <div className="Wrapper">
       <Header></Header>
-      <Disclaimer blockchainApi={blockchainApi}></Disclaimer>
+      
       <Body broker={broker} value={value} baseUri={baseUri}></Body>
+      <Disclaimer blockchainApi={blockchainApi}></Disclaimer>
     </div>
   );
 }

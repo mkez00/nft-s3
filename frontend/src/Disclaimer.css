@@ -1,4 +1,15 @@
 .wrapper {
-    padding:10px;
+    padding:3em;
     text-align:left;
+    /* background-color: #934ae6; */
+    background-image:linear-gradient( white, #8934eb );
+    
+}
+
+.inner-wrapper {
+    background-color: white;
+    padding:2em;
+    border-style: solid;
+    border-color: #8934eb;
+    border-radius: 10px;
 }
