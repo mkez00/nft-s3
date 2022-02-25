@@ -13,6 +13,7 @@ function Form(props){
   const [contract, setContract] = useState();
   const [account, setAccount] = useState();
   const [processingStatus, setProcessingStatus] = useState();
+  const [processingShow, setProcessingShow] = useState(false);
 
   useEffect(() => {
     async function load() {
@@ -24,6 +25,7 @@ function Form(props){
       let contract = new web3.eth.Contract(abi)
       setContract(contract)
       setProcessingStatus("")
+      setProcessingShow(false)
     }
     
     load();
@@ -36,12 +38,13 @@ function Form(props){
 
   let handleSubmit = async (e) => {
     e.preventDefault();
+
     setProcessingStatus("Processing smart contract")
+    setProcessingShow(true)
 
     let byteCode = require('./byteCode.json')
     let tokenUri = props.baseUri + v1() + ".json"
     
-    console.log("Processing smart contract")
     const contractResult = await contract.deploy({data:byteCode.object,arguments:[nftName, nftSymbol, tokenUri, props.broker]}).send(
       {
         from: account,
@@ -49,7 +52,6 @@ function Form(props){
       }
     )
 
-    console.log("Processing NFT metadata")
     setProcessingStatus("Processing NFT Metadata")
     let imageBase64 = ''  
     getBase64(selectedFile, async (result) => {
@@ -68,9 +70,11 @@ function Form(props){
       if (res.status === 200) {
         console.log("User created successfully");
         setProcessingStatus("NFT Created Successfully: " + contractResult.options.address)
+        setProcessingShow(true)
       } else {
         console.log("Some error occured");
         setProcessingStatus("Error processing request")
+        setProcessingShow(true)
       }
 
     });
@@ -78,8 +82,10 @@ function Form(props){
   }
 
   return (
-    <div className="container">
-      <p>{processingStatus}</p>
+    <div className="container">  
+      <div className="notification" style={{ display: processingShow ? "block" : "none" }}>
+        <p>{processingStatus}</p>
+      </div>
       <form onSubmit={handleSubmit}>
         <ul className="flex-outer">
           <li>
@@ -103,7 +109,7 @@ function Form(props){
                 <input type="file" id="image" onChange={changeHandler} />
               </li>
               <li>
-                <button type="submit">Create</button>
+                <button type="submit" disabled={processingShow}>{processingShow ? 'Processing...' : 'Create'}</button>
               </li>
             </ul>
           </form>
