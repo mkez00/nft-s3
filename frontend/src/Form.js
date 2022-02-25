@@ -38,6 +38,10 @@ function Form(props){
 
   let handleSubmit = async (e) => {
     e.preventDefault();
+    if (!name || !description || !nftName || !nftSymbol || !selectedFile){
+      setProcessingStatus("All fields are required")
+      return
+    }
 
     setProcessingStatus("Processing smart contract")
     setProcessingShow(true)
@@ -68,11 +72,9 @@ function Form(props){
       });
       let resJson = await res.json();
       if (res.status === 200) {
-        console.log("User created successfully");
         setProcessingStatus("NFT Created Successfully: " + contractResult.options.address)
         setProcessingShow(true)
       } else {
-        console.log("Some error occured");
         setProcessingStatus("Error processing request")
         setProcessingShow(true)
       }
@@ -83,18 +85,18 @@ function Form(props){
 
   return (
     <div className="container">  
-      <div className="notification" style={{ display: processingShow ? "block" : "none" }}>
+      <div className="notification" style={{ display: processingStatus ? "block" : "none" }}>
         <p>{processingStatus}</p>
       </div>
       <form onSubmit={handleSubmit}>
         <ul className="flex-outer">
           <li>
-            <label htmlFor="nft-name">NFT Name</label>
-            <input type="text" id="nft-name" placeholder="Enter the NFT Name here" onChange={(e) => setNftName(e.target.value)} />
+            <label htmlFor="nft-name">Collection Name</label>
+            <input type="text" id="nft-name" placeholder="Enter the Collection Name here" onChange={(e) => setNftName(e.target.value)} />
           </li>
               <li>
-                <label htmlFor="nft-symbol">NFT Symbol</label>
-                <input type="text" id="nft-symbol" placeholder="Enter the NFT Symbol here" onChange={(e) => setNftSymbol(e.target.value)}  />
+                <label htmlFor="nft-symbol">Collection Symbol</label>
+                <input type="text" id="nft-symbol" placeholder="Enter the Collection Symbol here" onChange={(e) => setNftSymbol(e.target.value)}  />
               </li>
               <li>
                 <label htmlFor="name">Name</label>
