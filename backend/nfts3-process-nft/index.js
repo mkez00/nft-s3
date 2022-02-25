@@ -37,7 +37,7 @@ exports.handler = async (event) => {
     // determine if contract provided and value provided are valid
     let validTransaction = false;
     if (broker!=account || valuePaid < valueRequired){
-        return "TRANSACTION IS NOT VALID";
+        return {"errorMessage" : "[BadRequest] Transaction is not valid"}
     }
 
     // check if S3 object exists.  If not, only allow one transaction per contract
@@ -117,17 +117,17 @@ exports.handler = async (event) => {
                 console.log(err)
             }
            
-
+			const response = {
+				broker: broker,
+				valuePaid: valuePaid,
+				validTransaction: validTransaction,
+				tokenUri: tokenUri
+			};
+			return response;
         }
     }
     
-    const response = {
-        broker: broker,
-        valuePaid: valuePaid,
-        validTransaction: validTransaction,
-        tokenUri: tokenUri
-    };
-    return response;
+    return {"errorMessage" : "[BadRequest] An error occurred"}
 };
 
 const abi = [
