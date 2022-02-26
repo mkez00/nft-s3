@@ -54,7 +54,13 @@ function Form(props){
         from: account,
         value: props.value,
       }
-    )
+    ).catch(e=>{
+      setProcessingStatus("Contract rejected by client")
+      setProcessingShow(false)
+    })
+    if (contractResult==null){
+      return
+    }
 
     setProcessingStatus("Processing NFT Metadata")
     let imageBase64 = ''  
@@ -70,15 +76,12 @@ function Form(props){
           image: imageBase64
         }),
       });
-      let resJson = await res.json();
       if (res.status === 200) {
         setProcessingStatus("NFT Created Successfully: " + contractResult.options.address)
-        setProcessingShow(true)
       } else {
         setProcessingStatus("Error processing request")
-        setProcessingShow(true)
       }
-
+      setProcessingShow(false)
     });
     
   }
