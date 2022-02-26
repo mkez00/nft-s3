@@ -15,7 +15,7 @@
  * @returns 
  */
 
-exports.handler = async (event) => {
+exports.handler = async (event, context) => {
 
     const contractId = event["contractId"];
     const account = process.env.account;
@@ -37,7 +37,7 @@ exports.handler = async (event) => {
     // determine if contract provided and value provided are valid
     let validTransaction = false;
     if (broker!=account || valuePaid < valueRequired){
-        return {"errorMessage" : "[BadRequest] Transaction is not valid"}
+        return context.fail("[BadRequest] Transaction is not valid")
     }
 
     // check if S3 object exists.  If not, only allow one transaction per contract
@@ -127,7 +127,7 @@ exports.handler = async (event) => {
         }
     }
     
-    return {"errorMessage" : "[BadRequest] An error occurred"}
+    return context.fail("[BadRequest] An error occurred")
 };
 
 const abi = [
