@@ -38,9 +38,6 @@
   .flex-outer li label,
   .flex-outer li p {
     padding: 8px;
-    /* font-weight: 300;
-    letter-spacing: .09em;
-    text-transform: uppercase; */
   }
   
   .flex-outer > li > label,
