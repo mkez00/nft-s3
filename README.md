@@ -1,6 +1,6 @@
 # Overview
 
-nft-s3 is a platform that allows clients to create a ERC-721 (NFT) tokens on an EVM based chain that stores the token's metadata in a centralized repo (S3).  The project is live and can be found at [The Quick NFT](https://thequicknft.com)
+nft-s3 is a platform that allows clients to create a ERC-721 (NFT) tokens on an EVM based chain that stores the token's metadata in a centralized repo (S3).  The project is live and can be found at <a href="https://thequicknft.com" target="_blank">The Quick NFT</a>
 
 # Requirements and Workflow
 
@@ -26,6 +26,6 @@ The centralized components of the application use AWS services.  The services in
 
 ## Decentralized Components
 
-The decentralized components of the application include a smart contract that implements the ERC-721 interface ([OpenZeppelin](https://github.com/OpenZeppelin/openzeppelin-contracts)).  The ideal blockchain to run this application on is [Polygon](https://polygon.technology/).  The use of a Web3 enabled wallet that supports the Polygon RPS is required as well (Metamask, Coinbase, etc.)
+The decentralized components of the application include a smart contract that implements the ERC-721 interface (<a href="https://github.com/OpenZeppelin/openzeppelin-contracts" target="_blank">OpenZeppelin</a>.  The ideal blockchain to run this application on is <a href="https://polygon.technology/" target="_blank"></a>.  The use of a Web3 enabled wallet that supports the Polygon RPS is required as well (Metamask, Coinbase, etc.)
 
 
