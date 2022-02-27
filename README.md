@@ -26,6 +26,6 @@ The centralized components of the application use AWS services.  The services in
 
 ## Decentralized Components
 
-The decentralized components of the application include a smart contract that implements the ERC-721 interface (<a href="https://github.com/OpenZeppelin/openzeppelin-contracts" target="_blank">OpenZeppelin</a>.  The ideal blockchain to run this application on is <a href="https://polygon.technology/" target="_blank"></a>.  The use of a Web3 enabled wallet that supports the Polygon RPS is required as well (Metamask, Coinbase, etc.)
+The decentralized components of the application include a smart contract that implements the ERC-721 interface (<a href="https://github.com/OpenZeppelin/openzeppelin-contracts" target="_blank">OpenZeppelin</a>).  The ideal blockchain to run this application on is <a href="https://polygon.technology/" target="_blank"></a>.  The use of a Web3 enabled wallet that supports the Polygon RPS is required as well (Metamask, Coinbase, etc.)
 
 
