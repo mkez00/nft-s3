@@ -1,6 +1,6 @@
 # Overview
 
-nft-s3 is a platform that allows clients to create a ERC-721 (NFT) tokens on an EVM based chain that stores the token's metadata in a centralized repo (S3).  The project is live and can be found [here](https://thequicknft.com)
+nft-s3 is a platform that allows clients to create a ERC-721 (NFT) tokens on an EVM based chain that stores the token's metadata in a centralized repo (S3).  The project is live and can be found at [The Quick NFT](https://thequicknft.com)
 
 # Requirements and Workflow
 
