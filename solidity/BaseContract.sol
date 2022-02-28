@@ -1,8 +1,9 @@
 // SPDX-License-Identifier: MIT
 
-pragma solidity 0.8.10;
+pragma solidity ^0.8.10;
 
-import "https://github.com/OpenZeppelin/openzeppelin-contracts/blob/release-v4.5/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
+import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
+import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 
 contract BaseContract is ERC721URIStorage {
 
@@ -18,7 +19,7 @@ contract BaseContract is ERC721URIStorage {
         Value = msg.value;
 
         uint256 newNftTokenId = 1; //never more than one
-        _mint(msg.sender, newNftTokenId);
+        _safeMint(msg.sender, newNftTokenId);
         _setTokenURI(newNftTokenId, tokenURI_);
     }
 }
