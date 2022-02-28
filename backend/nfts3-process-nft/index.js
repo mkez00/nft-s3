@@ -142,19 +142,9 @@ const abi = [
 				"internalType": "string",
 				"name": "symbol_",
 				"type": "string"
-			},
-			{
-				"internalType": "string",
-				"name": "tokenURI_",
-				"type": "string"
-			},
-			{
-				"internalType": "address",
-				"name": "broker_",
-				"type": "address"
 			}
 		],
-		"stateMutability": "payable",
+		"stateMutability": "nonpayable",
 		"type": "constructor"
 	},
 	{
@@ -231,32 +221,6 @@ const abi = [
 		],
 		"name": "Transfer",
 		"type": "event"
-	},
-	{
-		"inputs": [],
-		"name": "Broker",
-		"outputs": [
-			{
-				"internalType": "address",
-				"name": "",
-				"type": "address"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "Value",
-		"outputs": [
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
 	},
 	{
 		"inputs": [
